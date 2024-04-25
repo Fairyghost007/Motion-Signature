@@ -59,4 +59,34 @@ document.querySelectorAll(".drop-zone__input").forEach((inputElement) => {
       thumbnailElement.style.backgroundImage = null;
     }
   }
+  document.addEventListener("DOMContentLoaded", function () {
+    const input = document.querySelector(".drop-zone__input");
+    const svgContainer = document.querySelector(".final_result ");
+  
+    input.addEventListener("change", function () {
+      const file = this.files[0];
+  
+      if (file && file.type === "image/svg+xml") {
+        const reader = new FileReader();
+  
+        reader.onload = function (e) {
+          const svgContent = e.target.result;
+          svgContainer.innerHTML = svgContent;
+
+          const path = svgContainer.querySelector("path");
+          if (path) {
+            const length = path.getTotalLength();
+            path.style.strokeDasharray = length;
+            path.style.strokeDashoffset = length;
+          }
+        };
+  
+        reader.readAsText(file);
+      } else {
+        alert("Please select an SVG file.");
+      }
+    });
+});
+
+  
   
